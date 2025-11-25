@@ -27,31 +27,29 @@ vim.keymap.set("t", "<C-w><Right>", tnav .. "<C-w>l", opts)
 -- Exit terminal mode with Ctrl+Space
 vim.keymap.set("t", "<C-Space>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
--- Search
-vim.keymap.set("n", "<C-f>", "<CMD>Telescope live_grep<CR>", { desc = "Search across files"})
-
--- Select mode: Ctrl+f to search for selected text
-vim.keymap.set({"v", "s"}, "<C-f>", function()
+-- Visual mode: Ctrl+d to select next occurrence (like VSCode)
+vim.keymap.set("v", "<C-d>", function()
+  local save_cursor = vim.fn.getpos('.')
+  local save_search = vim.fn.getreg('/')
+  
+  -- Get the selected text
   local selected_text = vim.fn.getreg('"')
-  vim.cmd("Telescope live_grep default_text=" .. selected_text)
-end, { desc = "Search for selected text across files" })
-
--- Visual/Select mode: Ctrl+n to select next occurrence
-vim.keymap.set("v", "<C-n>", function()
-  local selected_text = vim.fn.getreg('"')
-  if selected_text ~= "" then
-    vim.cmd('normal! /' .. vim.fn.escape(selected_text, '\\/.*[]^$') .. '<CR>')
+  if selected_text == "" then return end
+  
+  -- Escape special regex characters
+  local escaped_text = vim.fn.escape(selected_text, '\\/.*[]^$')
+  
+  -- Search for next occurrence
+  vim.cmd('normal! /' .. escaped_text .. '<CR>')
+  
+  -- If found, add to selection
+  if vim.fn.line('.') ~= save_cursor[2] or vim.fn.col('.') ~= save_cursor[3] then
     vim.cmd('normal! v')
   end
-end, { desc = "Select next occurrence of selected text" })
-
-vim.keymap.set("s", "<C-n>", function()
-  local selected_text = vim.fn.getreg('"')
-  if selected_text ~= "" then
-    vim.cmd('normal! /' .. vim.fn.escape(selected_text, '\\/.*[]^$') .. '<CR>')
-    vim.cmd('normal! gh')
-  end
-end, { desc = "Select next occurrence of selected text" })
+  
+  -- Restore search register
+  vim.fn.setreg('/', save_search)
+end, { desc = "Add next occurrence to selection" })
 
 -- Select mode
 vim.keymap.set("n", "s", "gh", { desc = "Enter select mode"})
