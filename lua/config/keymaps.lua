@@ -33,7 +33,8 @@ vim.keymap.set("t", "<C-w><Down>",  tnav .. "<C-w>j", opts)
 vim.keymap.set("t", "<C-w><Up>",    tnav .. "<C-w>k", opts)
 vim.keymap.set("t", "<C-w><Right>", tnav .. "<C-w>l", opts)
 
--- Exit terminal mode with Ctrl+Space
+-- Exit terminal mode with Esc and Ctrl+Space
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 vim.keymap.set("t", "<C-Space>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- Visual mode: Ctrl+d to select next occurrence (like VSCode)
