@@ -24,14 +24,40 @@ vim.keymap.set("t", "<C-w><Down>",  tnav .. "<C-w>j", opts)
 vim.keymap.set("t", "<C-w><Up>",    tnav .. "<C-w>k", opts)
 vim.keymap.set("t", "<C-w><Right>", tnav .. "<C-w>l", opts)
 
+-- Exit terminal mode with Ctrl+Space
+vim.keymap.set("t", "<C-Space>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
 -- Search
-vim.keymap.set("n", "<C-f>", "<CMD>Telescope current_buffer_fuzzy_find<CR>", { desc = "Search in current buffer"})
+vim.keymap.set("n", "<C-f>", "<CMD>Telescope live_grep<CR>", { desc = "Search across files"})
+
+-- Select mode: Ctrl+f to search for selected text
+vim.keymap.set({"v", "s"}, "<C-f>", function()
+  local selected_text = vim.fn.getreg('"')
+  vim.cmd("Telescope live_grep default_text=" .. selected_text)
+end, { desc = "Search for selected text across files" })
+
+-- Visual/Select mode: Ctrl+n to select next occurrence
+vim.keymap.set("v", "<C-n>", function()
+  local selected_text = vim.fn.getreg('"')
+  if selected_text ~= "" then
+    vim.cmd('normal! /' .. vim.fn.escape(selected_text, '\\/.*[]^$') .. '<CR>')
+    vim.cmd('normal! v')
+  end
+end, { desc = "Select next occurrence of selected text" })
+
+vim.keymap.set("s", "<C-n>", function()
+  local selected_text = vim.fn.getreg('"')
+  if selected_text ~= "" then
+    vim.cmd('normal! /' .. vim.fn.escape(selected_text, '\\/.*[]^$') .. '<CR>')
+    vim.cmd('normal! gh')
+  end
+end, { desc = "Select next occurrence of selected text" })
 
 -- Select mode
 vim.keymap.set("n", "s", "gh", { desc = "Enter select mode"})
 
 -- Oil
-vim.keymap.set("n", "<Tab>", "<CMD>Oil<CR>", { desc = "Open parent directory"})
+vim.keymap.set("n", "<Space><Tab>", "<CMD>Oil --float<CR>", { desc = "Open parent directory in floating window"})
 
 -- Save
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<CMD>w<CR>", { desc = "Save buffer" })
@@ -74,3 +100,16 @@ local function close_window_and_discard_buffer()
 end
 
 vim.keymap.set("n", "<C-q>", close_window_and_discard_buffer, { desc = "Close window and discard buffer if unique" })
+
+-- Open terminal in 5-line window below current window
+vim.keymap.set("n", "<C-t>", function()
+  vim.cmd("below split | terminal")
+  vim.cmd("resize 5")
+end, { desc = "Open terminal in 5-line window below" })
+
+
+-- Move lines up/down with Alt+arrows
+vim.keymap.set("n", "<M-Up>", ":m .-2<CR>==", { desc = "Move line up" })
+vim.keymap.set("n", "<M-Down>", ":m .+1<CR>==", { desc = "Move line down" })
+vim.keymap.set("v", "<M-Up>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+vim.keymap.set("v", "<M-Down>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
