@@ -1,9 +1,25 @@
-vim.opt.whichwrap = "b,s,<,>,[,],h,l"
+local opt = vim.opt
 
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-vim.opt.softtabstop = 4
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.softtabstop = 2
+opt.expandtab = true
+opt.smartindent = true
+opt.wrap = false
+
+opt.incsearch = true
+opt.ignorecase = true
+opt.smartcase = true
+opt.hlsearch = true
+
+opt.number = true
+opt.relativenumber = false
+opt.termguicolors = true
+opt.signcolumn = "yes"
+opt.cmdheight = 1
+opt.scrolloff = 10
+opt.whichwrap = "b,s,<,>,[,],h,l"
+opt.completeopt = "menuone,noinsert,noselect"
 
 require("config.lazy")
 
