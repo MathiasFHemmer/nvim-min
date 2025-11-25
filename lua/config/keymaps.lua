@@ -16,6 +16,15 @@ vim.keymap.set("n", "<C-w><Down>",  "<C-w>j", opts)
 vim.keymap.set("n", "<C-w><Up>",    "<C-w>k", opts)
 vim.keymap.set("n", "<C-w><Right>", "<C-w>l", opts)
 
+-- Window resizing with Ctrl+w + PageUp/PageDown
+vim.keymap.set("n", "<C-w><PageUp>", function()
+  vim.cmd("resize +10")
+end, { desc = "Double window height" })
+
+vim.keymap.set("n", "<C-w><PageDown>", function()
+  vim.cmd("resize -10")
+end, { desc = "Halve window height" })
+
 -- Terminal mode
 local tnav = [[<C-\><C-n>]]
 
@@ -105,9 +114,12 @@ vim.keymap.set("n", "<C-t>", function()
   vim.cmd("resize 5")
 end, { desc = "Open terminal in 5-line window below" })
 
-
 -- Move lines up/down with Alt+arrows
 vim.keymap.set("n", "<M-Up>", ":m .-2<CR>==", { desc = "Move line up" })
 vim.keymap.set("n", "<M-Down>", ":m .+1<CR>==", { desc = "Move line down" })
 vim.keymap.set("v", "<M-Up>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 vim.keymap.set("v", "<M-Down>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+
+-- Indent selected region with Tab in visual/select mode
+vim.keymap.set({ "v", "s" }, "<Tab>", ">gv", { desc = "Indent selected region" })
+vim.keymap.set({ "v", "s" }, "<S-Tab>", "<gv", { desc = "Unindent selected region" })

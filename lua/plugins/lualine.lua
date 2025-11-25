@@ -12,6 +12,8 @@ local config = function()
 		options = {
       theme = theme,
       icons_enabled = true,
+      always_show_tabline = true,
+      globalstatus = true,
 		},		
     sections = {
       lualine_a = {'mode'},
@@ -21,7 +23,7 @@ local config = function()
       lualine_y = {"lsp_status","searchcount", 'progress'},
       lualine_z = {'location'}
 		},
-	  tablina = {},
+	  tabline = {},
 	})
 end
 
