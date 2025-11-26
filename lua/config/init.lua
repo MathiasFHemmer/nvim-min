@@ -27,6 +27,7 @@ opt.inccommand = 'split'
 require("config.lazy")
 require("config.lsp")
 require("config.dap")
+require("config.dap-ui")
 require("config.keymaps")
 require("config.telescope")
 

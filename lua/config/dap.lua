@@ -171,3 +171,5 @@ map("n", "<leader>dr", "<Cmd>lua require'dap'.repl.open()<CR>", opts)
 map("n", "<leader>dl", "<Cmd>lua require'dap'.run_last()<CR>", opts)
 map("n", "<leader>dt", "<Cmd>lua require('neotest').run.run({strategy = 'dap'})<CR>",
   { noremap = true, silent = true, desc = 'debug nearest test' })
+map("n", "<leader>du", "<Cmd>lua require('dapui').toggle()<CR>",
+  { noremap = true, silent = true, desc = 'toggle dap ui' })
