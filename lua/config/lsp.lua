@@ -21,6 +21,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+vim.lsp.handlers['textDocument/references'] = function(err, result, ctx, config)
+  config = config or {}
+  config.title = 'References'
+  config.window = {
+    border = 'rounded',
+    style = 'minimal'
+  }
+  return vim.lsp.util.show_references(result, ctx, config)
+end
+
 -- Diagnostics
 vim.diagnostic.config({
   -- Use the default configuration
@@ -28,7 +38,7 @@ vim.diagnostic.config({
 
   -- Alternatively, customize specific options
   --virtual_lines = {
-    -- Only show virtual line diagnostics for the current cursor line
-    -- current_line = true,
+  -- Only show virtual line diagnostics for the current cursor line
+  -- current_line = true,
   --},
 })

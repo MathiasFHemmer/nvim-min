@@ -60,7 +60,6 @@ vim.keymap.set("n", "<C-M-Down>", "<C-w>s<C-w>j", { desc = "Split horizontal and
 local function close_window_and_discard_buffer()
   local current_buf = vim.api.nvim_get_current_buf()
   local current_win = vim.api.nvim_get_current_win()
-  
   -- Check if buffer is visible in other windows
   local buf_is_visible_elsewhere = false
   for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -69,10 +68,8 @@ local function close_window_and_discard_buffer()
       break
     end
   end
-  
   -- Close current window
   vim.cmd("close")
- 
   -- If buffer is not visible elsewhere, delete it without saving
   if not buf_is_visible_elsewhere and vim.api.nvim_buf_is_valid(current_buf) then
     vim.api.nvim_buf_delete(current_buf, { force = true })
