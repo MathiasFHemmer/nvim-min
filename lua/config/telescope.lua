@@ -1,5 +1,4 @@
 -- Search
--- w 
 vim.keymap.set("n", "<C-f>", function()
   require('telescope.builtin').live_grep({
     fuzzy_sorter = true,

@@ -21,5 +21,11 @@ opt.scrolloff = 10
 opt.whichwrap = "b,s,<,>,[,],h,l"
 opt.completeopt = "menuone,noinsert,noselect"
 
+opt.winborder = 'rounded'
+opt.inccommand = 'split'
+
 require("config.lazy")
+require("config.lsp")
+require("config.keymaps")
+require("config.telescope")
 

@@ -2,20 +2,16 @@ local opts = { silent = true, noremap = true }
 
 -- Make 'a' behave like 'i'
 vim.keymap.set("n", "a", "i", { desc = "Enter insert mode at cursor position" })
-
 -- Word navigation with Ctrl+arrows
 vim.keymap.set({ "n", "i", "v" }, "<C-Left>", "b", { desc = "Move to previous word" })
 vim.keymap.set({ "n", "i", "v" }, "<C-Right>", "e", { desc = "Move to next word end" })
-
 -- Configure word characters to treat . _ - as separators
 vim.opt.iskeyword = "@,48-57,192-255"
-
 -- Normal mode: Ctrl+w + Arrow Keys
 vim.keymap.set("n", "<C-w><Left>",  "<C-w>h", opts)
 vim.keymap.set("n", "<C-w><Down>",  "<C-w>j", opts)
 vim.keymap.set("n", "<C-w><Up>",    "<C-w>k", opts)
 vim.keymap.set("n", "<C-w><Right>", "<C-w>l", opts)
-
 -- Window resizing with Ctrl+w + PageUp/PageDown
 vim.keymap.set("n", "<C-w><PageUp>", function()
   vim.cmd("resize +10")
@@ -36,30 +32,6 @@ vim.keymap.set("t", "<C-w><Right>", tnav .. "<C-w>l", opts)
 -- Exit terminal mode with Esc and Ctrl+Space
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 vim.keymap.set("t", "<C-Space>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
-
--- Visual mode: Ctrl+d to select next occurrence (like VSCode)
-vim.keymap.set("v", "<C-d>", function()
-  local save_cursor = vim.fn.getpos('.')
-  local save_search = vim.fn.getreg('/')
-  
-  -- Get the selected text
-  local selected_text = vim.fn.getreg('"')
-  if selected_text == "" then return end
-  
-  -- Escape special regex characters
-  local escaped_text = vim.fn.escape(selected_text, '\\/.*[]^$')
-  
-  -- Search for next occurrence
-  vim.cmd('normal! /' .. escaped_text .. '<CR>')
-  
-  -- If found, add to selection
-  if vim.fn.line('.') ~= save_cursor[2] or vim.fn.col('.') ~= save_cursor[3] then
-    vim.cmd('normal! v')
-  end
-  
-  -- Restore search register
-  vim.fn.setreg('/', save_search)
-end, { desc = "Add next occurrence to selection" })
 
 -- Select mode
 vim.keymap.set("n", "s", "gh", { desc = "Enter select mode"})
@@ -100,7 +72,7 @@ local function close_window_and_discard_buffer()
   
   -- Close current window
   vim.cmd("close")
-  
+ 
   -- If buffer is not visible elsewhere, delete it without saving
   if not buf_is_visible_elsewhere and vim.api.nvim_buf_is_valid(current_buf) then
     vim.api.nvim_buf_delete(current_buf, { force = true })
@@ -112,7 +84,7 @@ vim.keymap.set("n", "<C-q>", close_window_and_discard_buffer, { desc = "Close wi
 -- Open terminal in 5-line window below current window
 vim.keymap.set("n", "<C-t>", function()
   vim.cmd("below split | terminal")
-  vim.cmd("resize 5")
+  vim.cmd("resize 15")
 end, { desc = "Open terminal in 5-line window below" })
 
 -- Move lines up/down with Alt+arrows
@@ -124,3 +96,22 @@ vim.keymap.set("v", "<M-Down>", ":m '>+1<CR>gv=gv", { desc = "Move selection dow
 -- Indent selected region with Tab in visual/select mode
 vim.keymap.set({ "v", "s" }, "<Tab>", ">gv", { desc = "Indent selected region" })
 vim.keymap.set({ "v", "s" }, "<S-Tab>", "<gv", { desc = "Unindent selected region" })
+
+-- Word deletion in insert mode
+vim.keymap.set("i", "<C-Delete>", "<C-o>de", { desc = "Delete word under cursor" })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "oil",
+  callback = function()
+    vim.keymap.set("n", "<leader>gs", function()
+      local oil = require("oil")
+      local entry = oil.get_cursor_entry()
+      if not entry then return end
+
+      local dir = oil.get_current_dir()
+      local path = dir .. entry.name
+
+      vim.fn.jobstart({ "git", "add", path })
+    end, { buffer = true })
+  end,
+})
