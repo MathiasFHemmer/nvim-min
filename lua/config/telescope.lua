@@ -2,8 +2,9 @@
 vim.keymap.set("n", "<leader>fk", ":Telescope keymaps<CR>", { silent = true, noremap = true, desc = "Telescope keymaps" })
 vim.keymap.set("n", "<leader>fh", ":Telescope help_tags<CR>", { silent = true, noremap = true, desc = "Telescope help tags" })
 vim.keymap.set("n", "<leader>fe", ":Telescope find_files<CR>", { silent = true, noremap = true, desc = "Telescope find files" })
-vim.keymap.set("n", "<leader>fg", ":Telescope live_grep<CR>", { silent = true, noremap = true, desc = "Telescope live grep" })
+vim.keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", { silent = true, noremap = true, desc = "Telescope live grep" })
 vim.keymap.set("n", "<leader>fb", ":Telescope buffers<CR>", { silent = true, noremap = true, desc = "Telescope buffers" })
+vim.keymap.set("n", "<leader>gs", ":Telescope git_status<CR>", { silent = true, noremap = true, desc = "Telescope git status" })
 
 -- Search - VSCode-like live search in current buffer
 vim.keymap.set("n", "<C-f>", function()
@@ -36,10 +37,9 @@ vim.keymap.set("n", "<C-f>", function()
       -- Escape special characters for literal search
       vim.fn.setreg("/", text)
       vim.opt.hlsearch = true
-      -- Jump to first match
-      --vim.cmd('normal! /' .. text .. '\n')
     end
   end
+
   -- Set up live search on text change
   local group = vim.api.nvim_create_augroup("LiveSearch", { clear = false })
   vim.api.nvim_create_autocmd({"TextChanged", "TextChangedI"}, {
@@ -150,5 +150,3 @@ vim.keymap.set("n", "<M-Right>", function()
     vim.cmd('normal! n.')
   end
 end, { desc = "Repeat last command on next result" })
-
-

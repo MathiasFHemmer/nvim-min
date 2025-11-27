@@ -8,25 +8,23 @@ vim.keymap.set({ "n", "v" }, "<C-Right>", "e", { desc = "Move to next word end" 
 -- Configure word characters to treat . _ - as separators
 vim.opt.iskeyword = "@,48-57,192-255"
 -- Normal mode: Ctrl+w + Arrow Keys
-vim.keymap.set("n", "<C-w><Left>",  "<C-w>h", opts)
-vim.keymap.set("n", "<C-w><Down>",  "<C-w>j", opts)
-vim.keymap.set("n", "<C-w><Up>",    "<C-w>k", opts)
+vim.keymap.set("n", "<C-w><Left>", "<C-w>h", opts)
+vim.keymap.set("n", "<C-w><Down>", "<C-w>j", opts)
+vim.keymap.set("n", "<C-w><Up>", "<C-w>k", opts)
 vim.keymap.set("n", "<C-w><Right>", "<C-w>l", opts)
--- Window resizing with Ctrl+w + PageUp/PageDown
-vim.keymap.set("n", "<C-w><PageUp>", function()
-  vim.cmd("resize +10")
-end, { desc = "Double window height" })
 
-vim.keymap.set("n", "<C-w><PageDown>", function()
-  vim.cmd("resize -10")
-end, { desc = "Halve window height" })
+-- Window resizing with Space + Arrow Keys
+vim.keymap.set("n", "<Space><Up>", "<C-w>+", { desc = "Increase window height" })
+vim.keymap.set("n", "<Space><Down>", "<C-w>-", { desc = "Decrease window height" })
+vim.keymap.set("n", "<Space><Left>", "<C-w><", { desc = "Decrease window width" })
+vim.keymap.set("n", "<Space><Right>", "<C-w>>", { desc = "Increase window width" })
 
 -- Terminal mode
 local tnav = [[<C-\><C-n>]]
 
-vim.keymap.set("t", "<C-w><Left>",  tnav .. "<C-w>h", opts)
-vim.keymap.set("t", "<C-w><Down>",  tnav .. "<C-w>j", opts)
-vim.keymap.set("t", "<C-w><Up>",    tnav .. "<C-w>k", opts)
+vim.keymap.set("t", "<C-w><Left>", tnav .. "<C-w>h", opts)
+vim.keymap.set("t", "<C-w><Down>", tnav .. "<C-w>j", opts)
+vim.keymap.set("t", "<C-w><Up>", tnav .. "<C-w>k", opts)
 vim.keymap.set("t", "<C-w><Right>", tnav .. "<C-w>l", opts)
 
 -- Exit terminal mode with Esc and Ctrl+Space
@@ -34,10 +32,10 @@ vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 vim.keymap.set("t", "<C-Space>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- Select mode
-vim.keymap.set("n", "s", "gh", { desc = "Enter select mode"})
+vim.keymap.set("n", "s", "gh", { desc = "Enter select mode" })
 
 -- Oil
-vim.keymap.set("n", "<Space><Tab>", "<CMD>Oil --float<CR>", { desc = "Open parent directory in floating window"})
+vim.keymap.set("n", "<Space><Tab>", "<CMD>Oil --float<CR>", { desc = "Open parent directory in floating window" })
 
 -- Save
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<CMD>w<CR>", { desc = "Save buffer" })
@@ -76,12 +74,13 @@ local function close_window_and_discard_buffer()
   end
 end
 
-vim.keymap.set("n", "<C-q>", close_window_and_discard_buffer, { desc = "Close window and discard buffer if unique" })
+vim.keymap.set({"n", "t"}, "<C-q>", close_window_and_discard_buffer, { desc = "Close window and discard buffer if unique" })
 
 -- Open terminal in 5-line window below current window
 vim.keymap.set("n", "<C-t>", function()
   vim.cmd("below split | terminal")
-  vim.cmd("resize 15")
+  vim.cmd("resize 10")
+  vim.cmd("startinsert")
 end, { desc = "Open terminal in 5-line window below" })
 
 -- Move lines up/down with Alt+arrows
@@ -96,25 +95,6 @@ vim.keymap.set({ "v", "s" }, "<S-Tab>", "<gv", { desc = "Unindent selected regio
 
 -- Word deletion in insert mode
 vim.keymap.set("i", "<C-Delete>", "<C-o>de", { desc = "Delete word under cursor" })
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "oil",
-  callback = function()
-    vim.keymap.set("n", "<leader>gs", function()
-      local oil = require("oil")
-      local entry = oil.get_cursor_entry()
-      if not entry then return end
-
-      local dir = oil.get_current_dir()
-      local path = dir .. entry.name
-
-      vim.fn.jobstart({ "git", "add", path })
-    end, { buffer = true })
-
-    -- Exit oil with Esc
-    vim.keymap.set("n", "<Esc>", "<CMD>close<CR>", { buffer = true, desc = "Exit oil" })
-  end,
-})
 
 -- Goto preview keymaps
 vim.keymap.set("n", "gpd", function()
