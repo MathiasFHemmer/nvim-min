@@ -9,8 +9,6 @@ return {
         "vimdoc",
         "html",
         "css",
-      
-        -- !
         "c_sharp",
         "razor"
       },

@@ -3,8 +3,8 @@ local opts = { silent = true, noremap = true }
 -- Make 'a' behave like 'i'
 vim.keymap.set("n", "a", "i", { desc = "Enter insert mode at cursor position" })
 -- Word navigation with Ctrl+arrows
-vim.keymap.set({ "n", "i", "v" }, "<C-Left>", "b", { desc = "Move to previous word" })
-vim.keymap.set({ "n", "i", "v" }, "<C-Right>", "e", { desc = "Move to next word end" })
+vim.keymap.set({ "n", "v" }, "<C-Left>", "b", { desc = "Move to previous word" })
+vim.keymap.set({ "n", "v" }, "<C-Right>", "e", { desc = "Move to next word end" })
 -- Configure word characters to treat . _ - as separators
 vim.opt.iskeyword = "@,48-57,192-255"
 -- Normal mode: Ctrl+w + Arrow Keys
@@ -110,5 +110,33 @@ vim.api.nvim_create_autocmd("FileType", {
 
       vim.fn.jobstart({ "git", "add", path })
     end, { buffer = true })
+
+    -- Exit oil with Esc
+    vim.keymap.set("n", "<Esc>", "<CMD>close<CR>", { buffer = true, desc = "Exit oil" })
   end,
 })
+
+-- Goto preview keymaps
+vim.keymap.set("n", "gpd", function()
+  require('goto-preview').goto_preview_definition()
+end, { desc = "Go to preview definition" })
+
+vim.keymap.set("n", "gpt", function()
+  require('goto-preview').goto_preview_type_definition()
+end, { desc = "Go to preview type definition" })
+
+vim.keymap.set("n", "gpi", function()
+  require('goto-preview').goto_preview_implementation()
+end, { desc = "Go to preview implementation" })
+
+vim.keymap.set("n", "gpD", function()
+  require('goto-preview').goto_preview_declaration()
+end, { desc = "Go to preview declaration" })
+
+vim.keymap.set("n", "gP", function()
+  require('goto-preview').close_all_win()
+end, { desc = "Close all goto-preview windows" })
+
+vim.keymap.set("n", "gpr", function()
+  require('goto-preview').goto_preview_references()
+end, { desc = "Go to preview references" })
