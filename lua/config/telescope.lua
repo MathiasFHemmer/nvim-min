@@ -136,17 +136,3 @@ end, { desc = "Clear search pattern" })
 
 -- Change next search match (like cgn)
 vim.keymap.set("n", "<C-e>e", "cgn", { desc = "Change next search match" })
-
--- Repeat last command on previous result
-vim.keymap.set("n", "<M-Left>", function()
-  if vim.fn.getreg("/") ~= "" then
-    vim.cmd('normal! N.')
-  end
-end, { desc = "Repeat last command on previous result" })
-
--- Repeat last command on next result
-vim.keymap.set("n", "<M-Right>", function()
-  if vim.fn.getreg("/") ~= "" then
-    vim.cmd('normal! n.')
-  end
-end, { desc = "Repeat last command on next result" })

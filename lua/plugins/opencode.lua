@@ -31,8 +31,8 @@ return {
     -- Recommended/example keymaps.
     vim.keymap.set({ "n", "x" }, "<leader>a", function() require("opencode").ask("", { submit = true }) end,
       { desc = "Ask opencode" })
---    vim.keymap.set({ "n", "x" }, "<leader>a", function() require("opencode").toggle() end,
---      { desc = "Ask opencode" })
+    --    vim.keymap.set({ "n", "x" }, "<leader>a", function() require("opencode").toggle() end,
+    --      { desc = "Ask opencode" })
     vim.keymap.set({ "n", "x" }, "<C-a>x", function() require("opencode").select() end,
       { desc = "Execute opencode action" })
     vim.keymap.set('n', '+', '<C-a>', { desc = 'Increment', noremap = true })

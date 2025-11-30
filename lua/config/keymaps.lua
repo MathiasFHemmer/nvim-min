@@ -1,7 +1,5 @@
 local opts = { silent = true, noremap = true }
 
--- Make 'a' behave like 'i'
-vim.keymap.set("n", "a", "i", { desc = "Enter insert mode at cursor position" })
 -- Word navigation with Ctrl+arrows
 vim.keymap.set({ "n", "v" }, "<C-Left>", "b", { desc = "Move to previous word" })
 vim.keymap.set({ "n", "v" }, "<C-Right>", "e", { desc = "Move to next word end" })
@@ -12,7 +10,6 @@ vim.keymap.set("n", "<C-w><Left>", "<C-w>h", opts)
 vim.keymap.set("n", "<C-w><Down>", "<C-w>j", opts)
 vim.keymap.set("n", "<C-w><Up>", "<C-w>k", opts)
 vim.keymap.set("n", "<C-w><Right>", "<C-w>l", opts)
-
 -- Window resizing with Space + Arrow Keys
 vim.keymap.set("n", "<Space><Up>", "<C-w>+", { desc = "Increase window height" })
 vim.keymap.set("n", "<Space><Down>", "<C-w>-", { desc = "Decrease window height" })
@@ -54,6 +51,7 @@ vim.keymap.set("n", "<C-M-Right>", "<C-w>v<C-w>l", { desc = "Split vertical and 
 vim.keymap.set("n", "<C-M-Up>", "<C-w>s<C-w>k", { desc = "Split horizontal and move up" })
 vim.keymap.set("n", "<C-M-Down>", "<C-w>s<C-w>j", { desc = "Split horizontal and move down" })
 
+
 -- Close window with Ctrl+q and discard buffer if not visible elsewhere
 local function close_window_and_discard_buffer()
   local current_buf = vim.api.nvim_get_current_buf()
@@ -74,7 +72,8 @@ local function close_window_and_discard_buffer()
   end
 end
 
-vim.keymap.set({"n", "t"}, "<C-q>", close_window_and_discard_buffer, { desc = "Close window and discard buffer if unique" })
+vim.keymap.set({ "n", "t" }, "<C-q>", close_window_and_discard_buffer,
+  { desc = "Close window and discard buffer if unique" })
 
 -- Open terminal in 5-line window below current window
 vim.keymap.set("n", "<C-t>", function()
