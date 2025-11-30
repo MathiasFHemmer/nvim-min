@@ -20,7 +20,6 @@ opt.cmdheight = 1
 opt.scrolloff = 10
 opt.whichwrap = "b,s,<,>,[,],h,l"
 opt.completeopt = "menuone,noinsert,noselect"
-vim.o.tabline = "%t"
 opt.winborder = 'rounded'
 opt.inccommand = 'split'
 

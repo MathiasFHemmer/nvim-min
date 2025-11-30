@@ -92,6 +92,10 @@ vim.keymap.set("v", "<M-Down>", ":m '>+1<CR>gv=gv", { desc = "Move selection dow
 vim.keymap.set({ "v", "s" }, "<Tab>", ">gv", { desc = "Indent selected region" })
 vim.keymap.set({ "v", "s" }, "<S-Tab>", "<gv", { desc = "Unindent selected region" })
 
+-- Tab navigation with Alt+arrows
+vim.keymap.set("n", "<M-Left>", "<CMD>tabprev<CR>", { desc = "Go to previous tab" })
+vim.keymap.set("n", "<M-Right>", "<CMD>tabnext<CR>", { desc = "Go to next tab" })
+
 -- Word deletion in insert mode
 vim.keymap.set("i", "<C-Delete>", "<C-o>de", { desc = "Delete word under cursor" })
 
