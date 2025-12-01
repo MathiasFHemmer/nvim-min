@@ -77,9 +77,7 @@ vim.keymap.set({ "n", "t" }, "<C-q>", close_window_and_discard_buffer,
 
 -- Open terminal in 5-line window below current window
 vim.keymap.set("n", "<C-t>", function()
-  vim.cmd("below split | terminal")
-  vim.cmd("resize 10")
-  vim.cmd("startinsert")
+  require("snacks").terminal.open()
 end, { desc = "Open terminal in 5-line window below" })
 
 -- Move lines up/down with Alt+arrows
