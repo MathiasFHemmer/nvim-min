@@ -72,13 +72,23 @@ local function close_window_and_discard_buffer()
   end
 end
 
-vim.keymap.set({ "n", "t" }, "<C-q>", close_window_and_discard_buffer,
+vim.keymap.set({ "n" }, "<C-q>", close_window_and_discard_buffer,
   { desc = "Close window and discard buffer if unique" })
+
+vim.keymap.set({ "t" }, "<C-q>", function()
+  require('snacks').terminal.toggle()
+end, { desc = "Close window and discard buffer if unique" })
 
 -- Open terminal in 5-line window below current window
 vim.keymap.set("n", "<C-t>", function()
-  require("snacks").terminal.open()
-end, { desc = "Open terminal in 5-line window below" })
+  require("snacks").terminal.toggle(nil, {
+    win = {
+      relative = "win",
+      position = "bottom",
+      height = 0.3,
+    }
+  })
+end, { desc = "Open terminal relative to current window" })
 
 -- Move lines up/down with Alt+arrows
 vim.keymap.set("n", "<M-Up>", ":m .-2<CR>==", { desc = "Move line up" })
