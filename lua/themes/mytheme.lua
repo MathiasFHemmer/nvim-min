@@ -76,6 +76,10 @@ function M.setup()
   vim.api.nvim_set_hl(0, "StatusLine", { fg = p.fg, bg = p.dark_gray })
   vim.api.nvim_set_hl(0, "StatusLineNC", { fg = p.gray, bg = p.dark_gray })
 
+  -- Window separators
+  vim.api.nvim_set_hl(0, "WinSeparator", { fg = p.dark_gray, bg = p.bg })
+  vim.api.nvim_set_hl(0, "VertSplit", { fg = p.dark_gray, bg = p.bg })
+
   -- Search and selection
   vim.api.nvim_set_hl(0, "Search", { fg = p.bg, bg = p.yellow })
   vim.api.nvim_set_hl(0, "IncSearch", { fg = p.bg, bg = p.blue })
