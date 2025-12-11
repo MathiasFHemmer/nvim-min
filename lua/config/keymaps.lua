@@ -31,9 +31,6 @@ vim.keymap.set("t", "<C-Space>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 -- Select mode
 vim.keymap.set("n", "s", "gh", { desc = "Enter select mode" })
 
--- Oil
-vim.keymap.set("n", "<Space><Tab>", "<CMD>Oil --float<CR>", { desc = "Open parent directory in floating window" })
-
 -- Save
 vim.keymap.set({ "n", "i", "v" }, "<C-s>", "<CMD>w<CR>", { desc = "Save buffer" })
 
@@ -80,7 +77,7 @@ vim.keymap.set({ "t" }, "<C-q>", function()
 end, { desc = "Close window and discard buffer if unique" })
 
 -- Open terminal in 5-line window below current window
-vim.keymap.set("n", "<C-t>", function()
+vim.keymap.set({"n", "t"}, "<C-t>", function()
   require("snacks").terminal.toggle(nil, {
     win = {
       relative = "win",
